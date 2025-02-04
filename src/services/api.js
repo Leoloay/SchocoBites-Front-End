@@ -17,4 +17,12 @@ export const getProducts = async () => {
   }
 }
 
+export const postProducts = async (product) => {
+  try {
+    await API.post("/products/", product)
+  } catch (error) {
+    console.error("Error posting product:", error)
+  }
+}
+
 export default API
