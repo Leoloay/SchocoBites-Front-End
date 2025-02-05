@@ -8,7 +8,7 @@ import Nav from "./components/Nav"
 import Home from "./pages/Home"
 import About from "./pages/About"
 import ProductDetails from "./pages/ProductsDetails"
-import ProductForm from "./pages/ProductForm"
+import Login from "./pages/Login"
 
 const App = () => {
   return (
@@ -21,8 +21,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<ProductList />} />
-        <Route path="/product/add" element={<ProductForm />} />
         <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   )

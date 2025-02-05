@@ -19,9 +19,6 @@ const Nav = () => {
         <li className="inline-block mr-4">
           <NavLink to="/register">Register</NavLink>
         </li>
-        <li className="inline-block mr-4">
-          <NavLink to="/product/add">Add Products</NavLink>
-        </li>
       </ul>
     </nav>
   )
