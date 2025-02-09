@@ -1,4 +1,4 @@
-import client from "./client"
+import client from "./config"
 
 // Fetch all products
 export const getProducts = async () => {
@@ -28,7 +28,7 @@ export const createProduct = async (product) => {
   }
 }
 
-// Fetch a single product by ID
+// Fetch product by ID
 export const getProductById = async (productId) => {
   try {
     const response = await client.get(`/products/${productId}/`)

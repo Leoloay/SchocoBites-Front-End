@@ -1,7 +1,4 @@
 import "./App.css"
-import axios from "axios"
-import { useState, Component } from "react"
-import { login } from "./services/auth"
 import ProductList from "./pages/ProductsList"
 import { Route, Routes } from "react-router-dom"
 import Nav from "./components/Nav"
@@ -9,6 +6,7 @@ import Home from "./pages/Home"
 import About from "./pages/About"
 import ProductDetails from "./pages/ProductsDetails"
 import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 const App = () => {
   return (
@@ -23,6 +21,7 @@ const App = () => {
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   )

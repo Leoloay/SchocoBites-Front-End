@@ -1,4 +1,4 @@
-import client from "./client"
+import client from "./config"
 
 // Login user and get JWT tokens
 export const loginUser = async (username, password) => {
@@ -27,7 +27,7 @@ export const registerUser = async (userData) => {
   }
 }
 
-// Refresh JWT token (if expired)
+// Refresh JWT token
 export const refreshToken = async () => {
   try {
     const refresh = localStorage.getItem("refreshToken")

@@ -1,13 +1,24 @@
 import { useState, useEffect } from "react"
-import API, { getProducts } from "../services/api"
+import API from "../services/api"
+import { Link } from "react-router-dom"
+import { getProducts } from "../services/productsService"
 
 const ProductsList = () => {
   const [products, setProducts] = useState([])
 
+  // useEffect(() => {
+  //   API.get("/products/")
+  //     .then((response) => setProducts(response.data))
+  //     .catch((error) => console.error("Error fetching products:", error))
+  // }, [])
+
   useEffect(() => {
-    API.get("/products/")
-      .then((response) => setProducts(response.data))
-      .catch((error) => console.error(error))
+    const getAllProducts = async () => {
+      const data = await getProducts()
+      console.log(data)
+      setProducts(data)
+    }
+    getAllProducts()
   }, [])
 
   return (
@@ -38,9 +49,12 @@ const ProductsList = () => {
                 <span className="text-lg font-bold text-gray-900">
                   BHD {product.price}
                 </span>
-                <button className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition">
-                  Add to Cart
-                </button>
+                <Link
+                  to={`/products/${product.id}`}
+                  className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                >
+                  View Details
+                </Link>
               </div>
             </div>
           </div>
