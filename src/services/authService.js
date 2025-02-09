@@ -4,7 +4,6 @@ import client from "./config"
 export const loginUser = async (username, password) => {
   try {
     const response = await client.post("/login/", { username, password })
-
     const { access, refresh } = response.data
     localStorage.setItem("accessToken", access)
     localStorage.setItem("refreshToken", refresh)

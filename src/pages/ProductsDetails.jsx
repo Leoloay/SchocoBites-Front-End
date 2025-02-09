@@ -20,7 +20,7 @@ const ProductDetails = () => {
       setProduct(product)
     }
     getProduct()
-  }, [])
+  }, [id])
 
   if (!product) return <h1>Loading...</h1>
 
