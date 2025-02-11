@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { NavLink, useParams, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { getProductById } from "../services/productsService"
 // import API from "../services/api"
@@ -42,9 +42,16 @@ const ProductDetails = () => {
         <button className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition mt-4">
           Add to Cart
         </button>
-        <button className="bg-gray-200 text-gray-800 font-medium px-4 py-2 rounded-lg shadow hover:bg-gray-300 transition mt-4 ml-4">
-          Add a Review
-        </button>
+        {
+          <Link to={`/review/` + id}>
+            <button
+              // onClick={"#"}
+              className="bg-gray-200 text-gray-800 font-medium px-4 py-2 rounded-lg shadow hover:bg-gray-300 transition mt-4 ml-4"
+            >
+              Add a Review
+            </button>
+          </Link>
+        }
       </div>
     </div>
   )

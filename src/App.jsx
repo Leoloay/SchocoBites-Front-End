@@ -12,6 +12,7 @@ import Orders from "./pages/Orders"
 import Cart from "./pages/Cart"
 import ContactUs from "./pages/ContactUs"
 import ContactUs2 from "./pages/ContactUs2"
+import ReviewForm from "./pages/ReviewForm"
 
 const App = () => {
   const [user, setUser] = useState(false)
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/contact-us2" element={<ContactUs2 />} />
+        <Route path="/review/:id" element={<ReviewForm />} />
       </Routes>
     </>
   )
