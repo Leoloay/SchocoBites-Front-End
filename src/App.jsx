@@ -16,11 +16,17 @@ import ContactUs2 from "./pages/ContactUs2"
 const App = () => {
   const [user, setUser] = useState(false)
 
+  const logOut = () => {
+    localStorage.removeItem("authToken")
+    setUser(null)
+    navigate("/")
+  }
+
   return (
     <>
       <h1>Hello, World!</h1>
       <header>
-        <Nav user={user} />
+        <Nav user={user} logOut={logOut} />
       </header>
       <Routes>
         <Route path="/" element={<Home />} />
