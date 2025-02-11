@@ -2,7 +2,7 @@ import { useState } from "react"
 import { loginUser } from "../services/authService"
 import { useNavigate } from "react-router-dom"
 
-const Login = () => {
+const Login = ({ setUser }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(null)
@@ -12,6 +12,7 @@ const Login = () => {
     event.preventDefault()
     try {
       await loginUser(username, password)
+      setUser(true)
       navigate("/")
     } catch (error) {
       setError("Invalid credentials. Please try again.")
