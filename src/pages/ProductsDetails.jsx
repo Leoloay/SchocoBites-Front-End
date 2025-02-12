@@ -1,11 +1,13 @@
 import { NavLink, useParams, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { getProductById } from "../services/productsService"
+import { getReviewsByProduct } from "../services/reviewService"
 // import API from "../services/api"
 
 const ProductDetails = () => {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
+  const [reviews, setReviews] = useState(null)
 
   // useEffect(() => {
   //   API.get(`/products/${id}`)
@@ -16,13 +18,22 @@ const ProductDetails = () => {
   useEffect(() => {
     const getProduct = async () => {
       const product = await getProductById(id)
-      console.log(product)
       setProduct(product)
     }
+
+    const getReviews = async () => {
+      const review = await getReviewsByProduct(id)
+      console.log(review)
+
+      setReviews(review)
+    }
+
     getProduct()
+    getReviews()
   }, [id])
 
   if (!product) return <h1>Loading...</h1>
+  if (!reviews) return <h1>No reviews</h1>
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -52,6 +63,19 @@ const ProductDetails = () => {
             </button>
           </Link>
         }
+      </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 className="text-3xl font-extrabold text-gray-900 mt-6">
+          Customer Reviews
+        </h1>
+        {reviews.map((review) => (
+          <>
+            <p className="text-gray-600 mt-4"> Review: {review.review}</p>
+            <p className="text-xl font-bold text-gray-900 mt-4">
+              Rating: {review.rating} / 5
+            </p>
+          </>
+        ))}
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import client from "./client"
+import client from "./config"
 
 // Fetch all reviews for a product
 export const getReviewsByProduct = async (productId) => {
