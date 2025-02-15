@@ -13,12 +13,15 @@ import Cart from "./pages/Cart"
 import ContactUs from "./pages/ContactUs"
 import ContactUs2 from "./pages/ContactUs2"
 import ReviewForm from "./pages/ReviewForm"
+import { useNavigate } from "react-router-dom"
 
 const App = () => {
+  const navigate = useNavigate()
   const [user, setUser] = useState(false)
 
   const logOut = () => {
-    localStorage.removeItem("authToken")
+    localStorage.removeItem("accessToken")
+    localStorage.removeItem("refreshToken")
     setUser(null)
     navigate("/")
   }
@@ -40,7 +43,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/contact-us2" element={<ContactUs2 />} />
-        <Route path="/review/:id" element={<ReviewForm />} />
+        <Route path="/review/:id" element={<ReviewForm setUser={user} />} />
       </Routes>
     </>
   )

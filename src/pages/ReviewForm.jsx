@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { getProductById } from "../services/productsService"
+import { createReview } from "../services/reviewService"
 
 const initialFormData = {
   rating: "",
@@ -10,9 +11,27 @@ const initialFormData = {
 const ReviewForm = () => {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
+  const [message, setMessage] = useState("")
   const [reviewForm, setReviewForm] = useState(initialFormData)
 
-  const handleSubmit = () => {}
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault()
+      const data = await createReview(reviewForm)
+      if (data) {
+        if (data.error) {
+          setMessage({ msg: data.error })
+        } else {
+          setMessage({
+            msg: "Review Submitted Successfully",
+          })
+          setReviewForm(initialFormData)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleChange = (event) => {
     setReviewForm({ ...reviewForm, [event.target.name]: event.target.value })
@@ -38,6 +57,8 @@ const ReviewForm = () => {
         </div>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleSubmit} className="space-y-3">
+            <input type="hidden" name="product_id" value={product.id} />
+            <input type="hidden" name="user_id" value={user.id} />
             <label className="block text-sm font-bold text-gray-900">
               Rating:
             </label>
