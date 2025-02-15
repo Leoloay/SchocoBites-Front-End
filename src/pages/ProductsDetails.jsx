@@ -32,6 +32,22 @@ const ProductDetails = () => {
     getReviews()
   }, [id])
 
+  const addToCart = () => {
+    if (!product) return
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || []
+    const existingItem = cart.find((item) => item.id === product.id)
+
+    if (existingItem) {
+      existingItem.quantity += 1
+    } else {
+      cart.push({ ...product, quantity: 1 })
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart))
+    alert(`${product.name} added to cart!`)
+  }
+
   if (!product) return <h1>Loading...</h1>
   if (!reviews) return <h1>No reviews</h1>
 
@@ -50,7 +66,10 @@ const ProductDetails = () => {
         BHD {product.price}
       </p>
       <div>
-        <button className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition mt-4">
+        <button
+          onClick={addToCart}
+          className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition mt-4"
+        >
           Add to Cart
         </button>
         {
@@ -68,13 +87,13 @@ const ProductDetails = () => {
         <h1 className="text-3xl font-extrabold text-gray-900 mt-6">
           Customer Reviews
         </h1>
-        {reviews.map((review) => (
-          <>
+        {reviews?.map((review, index) => (
+          <div key={index}>
             <p className="text-gray-600 mt-4"> Review: {review.review}</p>
             <p className="text-xl font-bold text-gray-900 mt-4">
               Rating: {review.rating} / 5
             </p>
-          </>
+          </div>
         ))}
       </div>
     </div>

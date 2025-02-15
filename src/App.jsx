@@ -14,6 +14,8 @@ import ContactUs from "./pages/ContactUs"
 import ContactUs2 from "./pages/ContactUs2"
 import ReviewForm from "./pages/ReviewForm"
 import { useNavigate } from "react-router-dom"
+import Checkout from "./pages/Checkout"
+import OrdersDetails from "./pages/OrdersDetails"
 
 const App = () => {
   const navigate = useNavigate()
@@ -43,7 +45,9 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/contact-us2" element={<ContactUs2 />} />
-        <Route path="/review/:id" element={<ReviewForm setUser={user} />} />
+        <Route path="/review/:id" element={<ReviewForm user={user} />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/orders/:id" element={<OrdersDetails />} />
       </Routes>
     </>
   )

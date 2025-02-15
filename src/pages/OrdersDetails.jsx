@@ -19,9 +19,6 @@ const OrdersDetails = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold mb-6">Order #{order.id}</h1>
-      <p className="text-gray-600">
-        Date: {new Date(order.date).toLocaleDateString()}
-      </p>
       <div className="bg-white shadow-md rounded-lg p-6 mt-4">
         <h2 className="text-xl font-bold mb-4">Order Items</h2>
         <ul>
