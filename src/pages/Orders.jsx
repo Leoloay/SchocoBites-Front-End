@@ -27,8 +27,7 @@ const Orders = () => {
                 className="border-b py-4 flex justify-between items-center"
               >
                 <span>Order #{order.id}</span>
-                <span>{new Date(order.date).toLocaleDateString()}</span>
-                <span className="font-semibold">BHD {order.totalPrice}</span>
+                <span className="font-semibold">BHD {order.total_Price}</span>
                 <Link
                   to={`/orders/${order.id}`}
                   className="bg-blue-500 text-white px-4 py-2 rounded-lg"
