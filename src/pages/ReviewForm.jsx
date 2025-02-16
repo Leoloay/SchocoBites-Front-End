@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { getProductById } from "../services/productsService"
 import { createReview } from "../services/reviewService"
 
@@ -9,19 +9,26 @@ const initialFormData = {
 }
 
 const ReviewForm = ({ user }) => {
+  const navigate = useNavigate()
   const { id } = useParams()
   const [product, setProduct] = useState(null)
   const [message, setMessage] = useState("")
   const [reviewForm, setReviewForm] = useState({
     ...initialFormData,
     product: id,
-    user: 1,
+    user: user?.id || "",
   })
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault()
-      const data = await createReview(reviewForm)
+      const token = localStorage.getItem("accessToken")
+
+      if (!token) {
+        setMessage("You must be logged in to submit a review.")
+        return
+      }
+      const data = await createReview(reviewForm, token)
       if (data) {
         if (data.error) {
           setMessage({ msg: data.error })
@@ -30,6 +37,7 @@ const ReviewForm = ({ user }) => {
             msg: "Review Submitted Successfully",
           })
           setReviewForm(initialFormData)
+          navigate("/products/")
         }
       }
     } catch (error) {
@@ -61,20 +69,6 @@ const ReviewForm = ({ user }) => {
         </div>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleSubmit} className="space-y-3">
-            {console.log("Product_id:", product.id)}
-            {/* {console.log("user_id:", user)} */}
-            <input
-              defaultValue={product.id}
-              type="text"
-              name="product"
-              value={product.id}
-            />
-            <input
-              // defaultValue={user.id}
-              type="text"
-              name="user"
-              // value={user}
-            />
             <label className="block text-sm font-bold text-gray-900">
               Rating:
             </label>

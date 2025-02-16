@@ -3,7 +3,7 @@ import client from "./config"
 // Login user and get JWT tokens
 export const loginUser = async (username, password) => {
   try {
-    const response = await client.post("/login/", { username, password })
+    const response = await client.post("/token/", { username, password })
     const { access, refresh } = response.data
     localStorage.setItem("accessToken", access)
     localStorage.setItem("refreshToken", refresh)
@@ -32,7 +32,7 @@ export const refreshToken = async () => {
     const refresh = localStorage.getItem("refreshToken")
     if (!refresh) return null
 
-    const response = await client.post("/refresh/", { refresh })
+    const response = await client.post("/token/refresh/", { refresh })
     localStorage.setItem("accessToken", response.data.access)
     return response.data.access
   } catch (error) {

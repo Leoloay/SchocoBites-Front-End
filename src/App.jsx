@@ -16,6 +16,7 @@ import ReviewForm from "./pages/ReviewForm"
 import { useNavigate } from "react-router-dom"
 import Checkout from "./pages/Checkout"
 import OrdersDetails from "./pages/OrdersDetails"
+import EditReview from "./pages/EditReview"
 
 const App = () => {
   const navigate = useNavigate()
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="/review/:id" element={<ReviewForm />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/orders/:id" element={<OrdersDetails />} />
+        <Route path="/reviews/:id" element={<EditReview />} />
       </Routes>
     </>
   )
