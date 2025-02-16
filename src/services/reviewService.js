@@ -17,6 +17,8 @@ export const getReviewsByProduct = async (productId) => {
 // Create a new review
 export const createReview = async (reviewData) => {
   try {
+    console.log("ReviewDate:", reviewData)
+
     const response = await client.post("/reviews/", reviewData)
     return response.data
   } catch (error) {

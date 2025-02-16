@@ -12,7 +12,11 @@ const ReviewForm = ({ user }) => {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
   const [message, setMessage] = useState("")
-  const [reviewForm, setReviewForm] = useState(initialFormData)
+  const [reviewForm, setReviewForm] = useState({
+    ...initialFormData,
+    product: id,
+    user: 1,
+  })
 
   const handleSubmit = async (event) => {
     try {
@@ -58,9 +62,19 @@ const ReviewForm = ({ user }) => {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleSubmit} className="space-y-3">
             {console.log("Product_id:", product.id)}
-            {console.log("user_id:", user)}
-            <input type="hidden" name="product" value={product} />
-            <input type="hidden" name="user" value={user} />
+            {/* {console.log("user_id:", user)} */}
+            <input
+              defaultValue={product.id}
+              type="text"
+              name="product"
+              value={product.id}
+            />
+            <input
+              // defaultValue={user.id}
+              type="text"
+              name="user"
+              // value={user}
+            />
             <label className="block text-sm font-bold text-gray-900">
               Rating:
             </label>
