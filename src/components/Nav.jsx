@@ -44,7 +44,7 @@ const Nav = ({ user, logOut }) => {
               <NavLink to="/login">Login</NavLink>
             </li>
             <li className="inline-block mr-4">
-              <NavLink to="/register">Register</NavLink>
+              <NavLink to="/user/register">Register</NavLink>
             </li>
           </>
         )}

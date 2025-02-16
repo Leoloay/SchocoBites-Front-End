@@ -18,7 +18,7 @@ export const loginUser = async (username, password) => {
 // Register a new user
 export const registerUser = async (userData) => {
   try {
-    const response = await client.post("/register/", userData)
+    const response = await client.post("user/register/", userData)
     return response.data
   } catch (error) {
     console.error("Registration failed:", error.response?.data || error.message)
