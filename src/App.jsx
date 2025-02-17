@@ -20,7 +20,7 @@ import EditReview from "./pages/EditReview"
 
 const App = () => {
   const navigate = useNavigate()
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState(null)
 
   const logOut = () => {
     localStorage.removeItem("accessToken")

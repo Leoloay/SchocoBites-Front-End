@@ -8,7 +8,18 @@ export const loginUser = async (username, password) => {
     localStorage.setItem("accessToken", access)
     localStorage.setItem("refreshToken", refresh)
 
-    return response.data
+    const userData = await client.get("/users/", {
+      headers: { Authorization: `Bearer ${access}` },
+    })
+
+    const user = userData.data?.[0]
+    const user_id = user?.id
+
+    if (user_id) {
+      localStorage.setItem("user_id", user_id)
+    }
+
+    return { ...response.data, user_id }
   } catch (error) {
     console.error("Login failed:", error.response?.data || error.message)
     return null
