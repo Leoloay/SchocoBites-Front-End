@@ -5,14 +5,25 @@ import { getReviewById, updateReview } from "../services/reviewService"
 const EditReview = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [reviewData, setReviewData] = useState({ rating: "", review: "" })
+  const [reviewData, setReviewData] = useState({
+    rating: "",
+    review: "",
+    user_id: null,
+    product_id: null,
+  })
   const [message, setMessage] = useState("")
 
   useEffect(() => {
     const fetchReview = async () => {
       const review = await getReviewById(id)
+      console.log(review)
       if (review)
-        setReviewData({ rating: review.rating, review: review.review })
+        setReviewData({
+          rating: review.rating,
+          review: review.review,
+          user: review.user,
+          product: review.product,
+        })
     }
     fetchReview()
   }, [id])
