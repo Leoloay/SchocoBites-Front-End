@@ -14,20 +14,6 @@ export const getOrders = async () => {
   }
 }
 
-// Create a new order
-export const createOrder = async (orderData) => {
-  try {
-    const response = await client.post("/orders/", orderData)
-    return response.data
-  } catch (error) {
-    console.error(
-      "Error creating order:",
-      error.response?.data || error.message
-    )
-    return null
-  }
-}
-
 // Fetch a single order by ID
 export const getOrderById = async (orderId) => {
   try {
@@ -42,28 +28,18 @@ export const getOrderById = async (orderId) => {
   }
 }
 
-// Update an order (status, payment, etc.)
-export const updateOrder = async (orderId, orderData) => {
+// Create a new order
+export const createOrder = async (orderData, token) => {
   try {
-    const response = await client.put(`/orders/${orderId}/`, orderData)
+    const response = await client.post("/orders/", orderData, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
     return response.data
   } catch (error) {
     console.error(
-      "Error updating order:",
+      "Error creating order:",
       error.response?.data || error.message
     )
-    return null
-  }
-}
-
-// Cancel/Delete an order
-export const deleteOrder = async (orderId) => {
-  try {
-    await client.delete(`/orders/${orderId}/`)
-  } catch (error) {
-    console.error(
-      "Error deleting order:",
-      error.response?.data || error.message
-    )
+    return { error: error.response?.data || "Failed to create order" }
   }
 }

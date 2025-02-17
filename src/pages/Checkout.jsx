@@ -1,30 +1,63 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { createOrder } from "../services/orderService"
+import { createOrderItem } from "../services/orderItemService"
 
 const Checkout = () => {
   const [cart, setCart] = useState([])
+  const [formData, setFormData] = useState({
+    user: localStorage.getItem("user_id"),
+    status: "Pending",
+    payment_status: "unpaid",
+    address: "",
+    phone: "",
+    total_Price: 0,
+    special_instruction: " ",
+  })
   const navigate = useNavigate()
 
   useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("cart")) || [])
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || []
+    setCart(cartItems)
+    setFormData((prev) => ({
+      ...prev,
+      total_Price: cartItems
+        .reduce((sum, item) => sum + item.price * item.quantity, 0)
+        .toFixed(2),
+    }))
   }, [])
 
-  const total = cart
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
-    .toFixed(2)
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value })
+  }
 
-  const placeOrder = () => {
+  const placeOrder = async (event) => {
+    event.preventDefault()
     if (cart.length === 0) return alert("Your cart is empty!")
+    if (!formData.address || !formData.phone)
+      return alert("Please enter address and phone number.")
 
-    const order = {
-      items: cart,
-      totalPrice: total,
-      date: new Date().toLocaleString(),
+    const token = localStorage.getItem("accessToken")
+    const orderResponse = await createOrder(formData, token)
+
+    if (orderResponse.error) {
+      return alert("Error placing order. Please try again.")
+    }
+
+    const orderId = orderResponse.id
+
+    for (const item of cart) {
+      const orderItemData = {
+        order: orderId,
+        product: item.id,
+        quantity: item.quantity,
+        price_at_order: item.price,
+      }
+      await createOrderItem(orderItemData, token)
     }
 
     localStorage.removeItem("cart")
     setCart([])
-
     navigate("/orders")
   }
 
@@ -36,38 +69,43 @@ const Checkout = () => {
           <h2 className="text-2xl font-bold text-gray-900">
             Billing Information
           </h2>
-          <form className="mt-6 space-y-4">
+          <form onSubmit={placeOrder} className="mt-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Full Name
+                Address
               </label>
               <input
                 type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
                 className="mt-1 p-2 w-full border rounded-lg"
-                placeholder="John Doe"
                 required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Email Address
+                Phone Number
               </label>
               <input
-                type="email"
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 className="mt-1 p-2 w-full border rounded-lg"
-                placeholder="email@example.com"
                 required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Shipping Address
+                Special Instructions
               </label>
-              <input
-                type="text"
+              <textarea
+                name="special_instruction"
+                value={formData.special_instruction}
+                onChange={handleChange}
                 className="mt-1 p-2 w-full border rounded-lg"
-                placeholder="123 Main St, City"
-                required
+                placeholder="Optional instructions for your order..."
               />
             </div>
           </form>
@@ -87,9 +125,11 @@ const Checkout = () => {
             ))}
           </div>
           <div className="text-right font-bold text-lg mt-4">
-            Total: <span className="text-green-600">BHD {total}</span>
+            Total:{" "}
+            <span className="text-green-600">BHD {formData.total_Price}</span>
           </div>
           <button
+            type="submit"
             onClick={placeOrder}
             className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg shadow hover:bg-blue-700 mt-4 transition"
           >
