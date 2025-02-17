@@ -16,7 +16,7 @@ const ReviewForm = ({ user }) => {
   const [reviewForm, setReviewForm] = useState({
     ...initialFormData,
     product: id,
-    user: user?.id || "",
+    user: localStorage.getItem("user_id") || "",
   })
 
   const handleSubmit = async (event) => {

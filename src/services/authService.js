@@ -59,4 +59,5 @@ export const refreshToken = async () => {
 export const logoutUser = () => {
   localStorage.removeItem("accessToken")
   localStorage.removeItem("refreshToken")
+  localStorage.removeItem("user_id")
 }

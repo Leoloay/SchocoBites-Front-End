@@ -9,6 +9,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null)
   const [reviews, setReviews] = useState([])
   const [message, setMessage] = useState("")
+  const [userId, setUserId] = useState(null)
 
   // useEffect(() => {
   //   API.get(`/products/${id}`)
@@ -35,6 +36,11 @@ const ProductDetails = () => {
 
     getProduct()
     getReviews()
+
+    const storedUserId = Number(localStorage.getItem("user_id"))
+    if (storedUserId) {
+      setUserId(storedUserId)
+    }
   }, [id])
 
   const addToCart = () => {
@@ -69,7 +75,7 @@ const ProductDetails = () => {
     if (response.error) {
       setMessage(response.error)
     } else {
-      setReviews(reviews.filter((review) => review.id !== reviewId)) // Remove deleted review
+      setReviews(reviews.filter((review) => review.id !== reviewId))
       setMessage("Review deleted successfully.")
     }
   }
@@ -128,20 +134,22 @@ const ProductDetails = () => {
               <p className="text-xl font-bold text-gray-900 mt-4">
                 Rating: {review.rating} / 5
               </p>
-              <div className="flex gap-2 mt-4">
-                <Link
-                  to={`/reviews/${review.id}`}
-                  className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
-                >
-                  Edit Review
-                </Link>
-                <button
-                  onClick={() => handleDeleteReview(review.id)}
-                  className="bg-red-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-red-700 transition"
-                >
-                  Delete Review
-                </button>
-              </div>
+              {Number(localStorage.getItem("user_id")) === review.user && (
+                <div className="flex gap-2 mt-4">
+                  <Link
+                    to={`/reviews/${review.id}`}
+                    className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                  >
+                    Edit Review
+                  </Link>
+                  <button
+                    onClick={() => handleDeleteReview(review.id)}
+                    className="bg-red-600 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-red-700 transition"
+                  >
+                    Delete Review
+                  </button>
+                </div>
+              )}
             </div>
           ))
         ) : (

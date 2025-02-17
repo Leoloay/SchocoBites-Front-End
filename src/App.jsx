@@ -22,9 +22,17 @@ const App = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
 
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("user_id")
+    if (storedUserId) {
+      setUser({ id: storedUserId })
+    }
+  }, [])
+
   const logOut = () => {
     localStorage.removeItem("accessToken")
     localStorage.removeItem("refreshToken")
+    localStorage.removeItem("user_id")
     setUser(null)
     navigate("/")
   }
