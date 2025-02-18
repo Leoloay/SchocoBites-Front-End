@@ -102,7 +102,11 @@ const Checkout = () => {
               </label>
               <textarea
                 name="special_instruction"
-                value={formData.special_instruction}
+                value={
+                  formData.special_instruction
+                    ? formData.special_instruction
+                    : " "
+                }
                 onChange={handleChange}
                 className="mt-1 p-2 w-full border rounded-lg"
                 placeholder="Optional instructions for your order..."

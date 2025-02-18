@@ -3,7 +3,7 @@ import { loginUser } from "../services/authService"
 import { useNavigate } from "react-router-dom"
 
 const Login = ({ setUser }) => {
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -11,7 +11,7 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      await loginUser(email, password)
+      await loginUser(username, password)
       setUser(true)
       navigate("/")
     } catch (error) {
@@ -24,7 +24,7 @@ const Login = ({ setUser }) => {
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"
-          src="/src/assets/schocoBites2.png"
+          src="/src/assets/SchocoBitesLogo.png"
           alt="SchocoBites Logo"
         />
         <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
@@ -36,15 +36,15 @@ const Login = ({ setUser }) => {
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-900">
-              Email address
+              Username
             </label>
             <input
-              type="email"
-              name="email"
-              autoComplete="email"
+              type="username"
+              name="username"
+              placeholder="Username"
               required
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
               className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder-gray-400 focus:border-indigo-600 focus:outline-none"
             />
           </div>

@@ -2,7 +2,6 @@ import { useParams, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { getProductById } from "../services/productsService"
 import { getReviewsByProduct, deleteReview } from "../services/reviewService"
-// import API from "../services/api"
 
 const ProductDetails = () => {
   const { id } = useParams()
@@ -10,12 +9,6 @@ const ProductDetails = () => {
   const [reviews, setReviews] = useState([])
   const [message, setMessage] = useState("")
   const [userId, setUserId] = useState(null)
-
-  // useEffect(() => {
-  //   API.get(`/products/${id}`)
-  //     .then((response) => setProduct(response.data))
-  //     .catch((error) => console.error("Error fetching product details:", error))
-  // }, [id])
 
   useEffect(() => {
     const getProduct = async () => {
@@ -25,14 +18,8 @@ const ProductDetails = () => {
 
     const getReviews = async () => {
       const review = await getReviewsByProduct(id)
-      console.log(review)
-
       setReviews(review)
     }
-
-    // const EditReview = async () => {
-    //   const review = await
-    // }
 
     getProduct()
     getReviews()
@@ -56,7 +43,7 @@ const ProductDetails = () => {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart))
-    alert(`${product.name} added to cart!`)
+    setMessage(`${product.name} added to cart!`)
   }
 
   const handleDeleteReview = async (reviewId) => {
@@ -66,10 +53,7 @@ const ProductDetails = () => {
       return
     }
 
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this review?"
-    )
-    if (!confirmDelete) return
+    if (!window.confirm("Are you sure you want to delete this review?")) return
 
     const response = await deleteReview(reviewId, token)
     if (response.error) {
@@ -110,23 +94,22 @@ const ProductDetails = () => {
         </Link>
       </div>
 
+      {message && (
+        <div
+          className={`mt-4 px-4 py-2 text-center rounded-lg ${
+            message.includes("success")
+              ? "bg-green-100 text-green-700"
+              : "bg-blue-100 text-blue-700"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-3xl font-extrabold text-gray-900 mt-6">
           Customer Reviews
         </h1>
-
-        {message && (
-          <div
-            className={`mt-4 px-4 py-2 text-center rounded-lg ${
-              message.includes("success")
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {message}
-          </div>
-        )}
-
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <div key={review.id} className="border-b py-4">
