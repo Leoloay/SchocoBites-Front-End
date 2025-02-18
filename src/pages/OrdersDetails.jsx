@@ -20,7 +20,7 @@ const OrdersDetails = () => {
 
       const productsData = await getProducts()
       const productsMap = productsData.reduce((acc, product) => {
-        acc[product.id] = product.name // Map product ID to product name
+        acc[product.id] = product.name
         return acc
       }, {})
       setProducts(productsMap)
